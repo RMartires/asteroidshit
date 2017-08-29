@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Moveshit extends Polygon{
 
     
+    boolean onscreen=true;
+    
     static int[] sx={10,17,26,34,27,36,26,14,8,1,5,1,10};
     static int[] sy={0,5,1,8,13,20,31,28,31,22,16,7,0};
 
@@ -34,10 +36,11 @@ public class Moveshit extends Polygon{
     }
     
     
-    public void move(){
+    public void move(spaceship ship,ArrayList<beam> thebeam){
 
        Rectangle shittocheck= this.getBounds();
-        
+       Rectangle shipcheck=ship.getbounds();
+        if(this.onscreen){
         for(Moveshit shit:arrayshit){
         
             Rectangle currentshit=shit.getBounds();
@@ -55,8 +58,25 @@ public class Moveshit extends Polygon{
             
             }
         
+            if(currentshit.intersects(shipcheck)){ship.setxCenter(ship.gbwidth/2);
+            ship.setyCenter(ship.gbheight/2);
+            ship.setxvel(0);
+            ship.setyvel(0);
+            }
+            
+            for(beam beams:thebeam){
+            if(beams.onscreen){
+            Rectangle beamcheck=beams.getbounds();
+            if(beamcheck.intersects(currentshit)){
+            shit.onscreen=false;
+            beams.onscreen=false;
+            }
+            }
+            }
+            
         }
         
+        }
         
     int uxleft=super.xpoints[0];
     int uyleft=super.ypoints[0];
